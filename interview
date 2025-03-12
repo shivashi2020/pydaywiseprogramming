@@ -1,0 +1,94 @@
+**Selenium with Python - Interview Questions & Answers**
+
+1. **What is Selenium WebDriver?**
+   - Selenium WebDriver is a library used to automate web applications. It provides APIs for interacting with web elements like buttons, forms, and tables across different browsers.
+
+2. **What are the different locators available in Selenium?**
+   - Selenium supports various locators to find web elements:
+     - ID
+     - Name
+     - XPath
+     - CSS Selector
+     - Link Text
+     - Partial Link Text
+     - Tag Name
+     - Class Name
+
+3. **What is the difference between `find_element()` and `find_elements()`?**
+   - `find_element()` returns a single web element, while `find_elements()` returns a list of matching elements.
+
+4. **What is the difference between `driver.close()` and `driver.quit()`?**
+   - `driver.close()` closes the current browser tab, while `driver.quit()` closes the entire browser session, including all open tabs.
+
+5. **What is the difference between Implicit and Explicit Wait in Selenium?**
+   - **Implicit Wait:** Applies a fixed wait time globally before throwing an exception if an element is not found.
+   - **Explicit Wait:** Waits dynamically based on certain conditions (e.g., visibility, clickability) before interacting with an element.
+
+6. **What does `time.sleep(2)` do in Selenium?**
+   - `time.sleep(2)` pauses execution for exactly 2 seconds before moving to the next step. It is a static wait and should be avoided in favor of explicit waits.
+
+7. **How do you switch between different browser windows or pop-ups in Selenium?**
+   - Use `driver.window_handles` to get a list of open windows.
+   - Switch using `driver.switch_to.window(window_handle)`.
+
+8. **How do you handle alerts in Selenium?**
+   - Use `driver.switch_to.alert` and perform actions like:
+     ```python
+     alert = driver.switch_to.alert
+     alert.accept()  # Click OK
+     alert.dismiss()  # Click Cancel
+     alert.send_keys("Text")  # Input text
+     ```
+
+9. **How do you handle a dropdown in Selenium WebDriver?**
+   - Use the `Select` class for `<select>` elements:
+     ```python
+     from selenium.webdriver.support.ui import Select
+     dropdown = Select(driver.find_element(By.ID, "dropdown_id"))
+     dropdown.select_by_visible_text("Option 1")
+     ```
+   - Use `ActionChains` for non-select dropdowns.
+
+10. **How do you handle a table in Selenium WebDriver? (e.g., extracting data from a web table)**
+   - Locate the table and iterate through rows and columns:
+     ```python
+     rows = driver.find_elements(By.XPATH, "//table[@id='table_id']/tbody/tr")
+     for row in rows:
+         cells = row.find_elements(By.TAG_NAME, "td")
+         for cell in cells:
+             print(cell.text)
+     ```
+
+11. **Selenium Scenario: Handling a Dynamic Web Table with Pagination**
+    - **Problem Statement:**
+      - Find a row where the "Name" column contains "John Doe".
+      - Click the "Edit" button for that row.
+      - If not found, navigate to the next page and continue searching.
+    - **Solution:**
+      ```python
+      while True:
+          rows = driver.find_elements(By.XPATH, "//table[@id='table_id']/tbody/tr")
+          found = False
+          for row in rows:
+              if "John Doe" in row.text:
+                  row.find_element(By.XPATH, ".//td/button[text()='Edit']").click()
+                  found = True
+                  break
+          if found:
+              break
+          try:
+              next_button = driver.find_element(By.XPATH, "//a[text()='Next']")
+              if next_button.is_enabled():
+                  next_button.click()
+              else:
+                  break
+          except:
+              break
+      ```
+
+12. **Follow-Up Questions:**
+    - **How would you handle an infinite scrolling table instead of pagination?**
+      - Use `driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")` and wait for new elements to load.
+    - **How can you improve the performance of table searches in Selenium?**
+      - Use explicit waits and stop searching immediately when the target row is found.
+
