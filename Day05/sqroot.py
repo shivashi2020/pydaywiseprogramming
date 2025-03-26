@@ -1,16 +1,15 @@
+def sqrootof_number():
 
-numb = float(input('Enter a number: '))
-
-
-numsqrt = numb ** 0.5
-
-print('square root of %0.3f is %0.3f'%(numb ,numsqrt))
-
-Output:
-
-Enter a number 
+    try:
+        numb = float(input('Enter a number: '))
+        numsqrt = numb ** 0.5
+        return numsqrt
+    except Exception as e:
+        print(f'Errror {e}')
 
 
 
-The square root of 8.000 is 2.828
+print(sqrootof_number())
+
+
 

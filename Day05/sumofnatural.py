@@ -1,18 +1,16 @@
+# Sum of Natural numbers
 
-n = int (input (“Enter any natural number: “)
+try:
 
-if n < 0:
+    natural_numbers = input("Enter numbers spearated by coma : ")
+    number_split = natural_numbers.split(",")
+    sum = 0
+    for numb in number_split:
+        sum = sum + int(numb.strip())
 
-              print (“Wrong input. Please enter a positive number.”)
+    print(sum)
+except Exception as e:
+    print(f"An error occurred: {e}")
 
-else:
 
-              sum = 0
 
-              while (n > 0):
-
-                             sum +=n
-
-                             n -=1
-
-              print (“The sum of the natural numbers is: “, sum)
